@@ -79,8 +79,8 @@ def render_onboarding(engine):
         st.markdown("---")
         st.info("✅ Final Step: Ensure Details and Roster are filled out in the previous tabs before clicking Create.")
         
-        # Moved the button inside Tab 3!
-        if st.button("Create Client Workspace", type="primary", width='stretch'):
+        # 🔴 FIX: Changed width='stretch' to use_container_width=True
+        if st.button("Create Client Workspace", type="primary", use_container_width=True):
             
             if not client_name or not policy_number:
                 st.error("Please go back to Tab 1 and fill in Client Name and Policy Number.")
