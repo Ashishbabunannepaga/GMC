@@ -2,10 +2,11 @@ import streamlit as st
 from database import get_all_clients
 
 def render_directory(engine):
+    # CSS specifically tuned for modern hover cards
     st.markdown("""
         <style>
         section[data-testid="stMain"] .stButton > button {
-            height: 90px;
+            height: 100px;
             width: 100%;
             border-radius: 12px;
             border: 1px solid rgba(150, 150, 150, 0.15) !important;
@@ -25,7 +26,7 @@ def render_directory(engine):
             box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.25);
         }
         section[data-testid="stMain"] .stButton > button p {
-            font-size: 0.9rem !important; 
+            font-size: 1.1rem !important; 
             font-weight: 700 !important;
             white-space: normal !important; 
             line-height: 1.2;
@@ -34,8 +35,7 @@ def render_directory(engine):
         </style>
     """, unsafe_allow_html=True)
     
-    # Updated Official Title
-    st.title("🛡️ GMC Endorsement Calculation Portal")
+    st.title("🛡️ Corporate Client Directory")
     st.markdown("---")
     
     clients = get_all_clients(engine)
@@ -56,11 +56,13 @@ def render_directory(engine):
 
     st.write("")
     
-    # Render the dynamic 4-column Grid
-    cols = st.columns(5)
+    # 🔴 FIX: Fixed the column math and replaced width='stretch' with use_container_width=True
+    num_columns = 5
+    cols = st.columns(num_columns)
+    
     for idx, client in enumerate(filtered_clients):
-        with cols[idx % 4]:
-            if st.button(f"\n{client['name']}", key=f"enter_{client['id']}", width='stretch'):
+        with cols[idx % num_columns]:
+            if st.button(f"🏢\n{client['name']}", key=f"enter_{client['id']}", use_container_width=True):
                 st.session_state.selected_client_id = client['id']
                 st.session_state.selected_client_name = client['name']
                 st.session_state.current_page = "Workspace Dashboard"
